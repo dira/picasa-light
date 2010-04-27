@@ -31,15 +31,6 @@ def user_url(username)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,entry(title,gphoto:id,gphoto:name,media:group(media:thumbnail))")
 end
 
-def photos_url(username, album)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,entry(content)")
-end
-
-def photo_with_size(url, size)
-  url = url.gsub(/\/s\d{1,3}(-.)?/, '') # remove the size specifier, if present
-  url.gsub(/(\/[^\/]+)$/, '/s' + size.to_s + '\1') # add the new one
-end
-
 def user(username)
   content = Net::HTTP.get(user_url(username))
   feed = JSON.parse(content)['feed']
@@ -53,8 +44,17 @@ def user(username)
   { :name => feed["author"][0]["name"]["$t"], :albums => albums }
 end
 
+def album_url(username, album)
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,entry(content)")
+end
+
+def photo_with_size(url, size)
+  url = url.gsub(/\/s\d{1,3}(-.)?/, '') # remove the size specifier, if present
+  url.gsub(/(\/[^\/]+)$/, '/s' + size.to_s + '\1') # add the new one
+end
+
 def album(username, album)
-  content = Net::HTTP.get(photos_url(username, album))
+  content = Net::HTTP.get(album_url(username, album))
   feed = JSON.parse(content)['feed']
   photos = feed['entry'].map do |photo|
     { :src => photo["content"]["src"] }
