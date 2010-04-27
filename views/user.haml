@@ -1,0 +1,9 @@
+%h1
+  Albums of 
+  = params[:username] # replace cu user name
+
+%ol
+  - @albums.each do |album|
+    %li
+      %a{ :href => "/#{params[:username]}/#{album[:id]}" }
+        %img{ :src => album[:thumbnail]}

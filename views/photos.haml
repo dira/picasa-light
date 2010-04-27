@@ -1,0 +1,6 @@
+%h1
+  Photos of an album
+%ol
+  - @photos.each do |photo|
+    %li
+      %img{ :src => photo[:src]}
