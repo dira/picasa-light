@@ -1,0 +1,6 @@
+%h1
+  = @album[:title]
+%ol.photos
+  - @album[:photos].each do |photo|
+    %li
+      %img{ :src => photo_with_size(photo[:src], 400) }

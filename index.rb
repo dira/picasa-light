@@ -15,17 +15,19 @@ get '/stylesheet.css' do
 end
 
 get '/:username/?' do
-  @albums = albums(params[:username])
+  @user = user(params[:username])
   haml :user
 end
 
-get '/:username/:album/?' do
-  @photos = photos(params[:username], params[:album])
-  haml :photos
+['/:username/:album_id/*/?', '/:username/:album_id/?'].each do |route|
+  get route do
+    @album = album(params[:username], params[:album_id])
+    haml :album
+  end
 end
 
 
-def albums_url(username)
+def user_url(username)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json")
 end
 
@@ -33,19 +35,29 @@ def photos_url(username, album)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json")
 end
 
-def albums(username)
-  content = Net::HTTP.get(albums_url(username))
-  JSON.parse(content)['feed']['entry'].map do |album|
+def photo_with_size(url, size)
+  url = url.gsub(/\/s\d{1,3}(-.)?/, '') # remove the size specifier, if present
+  url.gsub(/(\/[^\/]+)$/, '/s' + size.to_s + '\1') # add the new one
+end
+
+def user(username)
+  content = Net::HTTP.get(user_url(username))
+  feed = JSON.parse(content)['feed']
+  albums = feed['entry'].map do |album|
     { :title => album["title"]["$t"],
       :id => album["gphoto$id"]["$t"],
+      :uri => album["gphoto$name"]["$t"],
       :thumbnail => album["media$group"]["media$thumbnail"][0]["url"]
     }
   end
+  { :name => feed["author"][0]["name"]["$t"], :albums => albums }
 end
 
-def photos(username, album)
+def album(username, album)
   content = Net::HTTP.get(photos_url(username, album))
-  JSON.parse(content)['feed']['entry'].map do |photo|
-    { :src => photo["content"]["src"].gsub(/(\/[^\/]+)$/, '/s400\1') }
+  feed = JSON.parse(content)['feed']
+  photos = feed['entry'].map do |photo|
+    { :src => photo["content"]["src"] }
   end
+  { :title => feed["title"]["$t"], :photos => photos }
 end

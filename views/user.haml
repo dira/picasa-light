@@ -1,9 +1,11 @@
 %h1
-  Albums of 
-  = params[:username] # replace cu user name
+  = @user[:name]
+  has
+  = @user[:albums].size
+  albums:
 
-%ol
-  - @albums.each do |album|
+%ol.albums
+  - @user[:albums].each do |album|
     %li
-      %a{ :href => "/#{params[:username]}/#{album[:id]}" }
-        %img{ :src => album[:thumbnail]}
+      %a{ :href => "/#{params[:username]}/#{album[:id]}/#{album[:uri]}" }
+        = album[:title]

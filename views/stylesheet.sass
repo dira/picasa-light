@@ -1,19 +1,39 @@
 body
   font-family: "'Trebuchet MS',arial,sans-serif"
-  font-size: 18px
   color: #333333
+  font-size: 16px
+  padding-top: 20px
+  padding-left: 50px
 
 h1
   font-variant: small-caps
-  font-size: 1em
-
+  font-size: 18px
+  margin-bottom: 20px
 
 ol
   list-style: none
   margin: 0
   padding: 0
-  li
-    margin-bottom: 20px
 
 img
   border: 0
+
+a
+  display: inline-block
+  padding: 7px 4px 0
+  color: #300
+  text-decoration: none
+  border-bottom: 1px solid #300
+  &:hover
+    background-color: #900
+    color: white
+    border-bottom: 1px solid #900
+
+ol.albums, ol.photos
+  li
+    margin-bottom: 15px
+
+.photos img
+  border: 1px solid #666
+  min-width: 100px
+  min-height: 100px
