@@ -28,11 +28,11 @@ end
 
 
 def user_url(username)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,entry(title,gphoto:id,gphoto:name,media:group(media:thumbnail))")
 end
 
 def photos_url(username, album)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,entry(content)")
 end
 
 def photo_with_size(url, size)
