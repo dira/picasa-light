@@ -21,6 +21,10 @@ get '/:username/?' do
   haml :user
 end
 
+def user_url(username)
+  "/#{URI.escape(username)}"
+end
+
 ['/:username/:album_id/*/?', '/:username/:album_id/?'].each do |route|
   get route do
     @album = album(params[:username], params[:album_id]) rescue error(404, "Wrong user name or album, how did you get here?")
@@ -34,12 +38,12 @@ def add_http_cache
   cache_control :public, :max_age => 60*60
 end
 
-def user_url(username)
+def api_url_user(username)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,entry(title,summary,gphoto:id,gphoto:name,gphoto:location,media:group(media:thumbnail))")
 end
 
 def user(username)
-  response = Net::HTTP.get_response(user_url(username))
+  response = Net::HTTP.get_response(api_url_user(username))
   throw "Inexistent user" unless response.is_a? Net::HTTPOK
 
   feed = JSON.parse(response.body)['feed']
@@ -55,7 +59,7 @@ def user(username)
   { :name => feed["author"][0]["name"]["$t"], :albums => albums }
 end
 
-def album_url(username, album)
+def api_url_album(username, album)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,entry(content,media:group(media:description),gphoto:timestamp)")
 end
 
@@ -65,7 +69,7 @@ def photo_with_size(url, size)
 end
 
 def album(username, album)
-  response = Net::HTTP.get_response(album_url(username, album))
+  response = Net::HTTP.get_response(api_url_album(username, album))
   throw "Inexistent user or album" unless response.is_a? Net::HTTPOK
 
   feed = JSON.parse(response.body)['feed']
