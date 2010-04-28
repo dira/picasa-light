@@ -39,7 +39,7 @@ def add_http_cache
 end
 
 def api_url_user(username)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,entry(title,summary,gphoto:id,gphoto:name,gphoto:location,media:group(media:thumbnail))")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,link[@rel='alternate'],entry(title,summary,gphoto:id,gphoto:name,gphoto:location,media:group(media:thumbnail))")
 end
 
 def user(username)
@@ -56,11 +56,11 @@ def user(username)
       :thumbnail => album["media$group"]["media$thumbnail"][0]["url"]
     }
   end
-  { :name => feed["author"][0]["name"]["$t"], :albums => albums }
+  { :name => feed["author"][0]["name"]["$t"], :link => feed["link"][0]["href"], :albums => albums }
 end
 
 def api_url_album(username, album)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,entry(content,media:group(media:description),gphoto:timestamp)")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,author,link[@rel='alternate'],entry(content,media:group(media:description),gphoto:timestamp)")
 end
 
 def photo_with_size(url, size)
@@ -79,7 +79,7 @@ def album(username, album)
       :time => Time.at(photo["gphoto$timestamp"]["$t"].to_i / 1000)
     }
   end
-  { :title => feed["title"]["$t"], :photos => photos }
+  { :title => feed["title"]["$t"], :author => feed["author"][0]["name"]["$t"], :link => feed["link"][0]["href"], :photos => photos }
 end
 
 helpers do

@@ -1,7 +1,9 @@
 .navigation
-  %a{ :href => '/' } picasa-light
+  %a{ :href => '/' } home
   \/
-  %a{ :href => user_url(params[:username]) } all albums
+  %a{ :href => user_url(params[:username]) }
+    ="#{h @album[:author]} - all albums"
+
 %h1
   =h @album[:title]
 %ol.photos
@@ -13,3 +15,6 @@
           %p= auto_link_urls(h photo[:description])
         %p.time
           = photo[:time].strftime("%B %d, %Y")
+
+.navigation
+  %a{ :href => @album[:link] } View this album on PicasaWeb

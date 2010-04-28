@@ -1,5 +1,6 @@
 .navigation
-  %a{ :href => '/' } picasa-light
+  %a{ :href => '/' } home
+
 %h1
   =h @user[:name]
   has
@@ -11,3 +12,6 @@
     %li
       %a{ :href => "/#{URI.encode(params[:username])}/#{album[:id]}/#{album[:uri]}", :title => album_title(album) }
         =h album[:title]
+
+.navigation
+  %a{ :href => @user[:link] } View these albums on PicasaWeb
