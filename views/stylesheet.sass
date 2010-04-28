@@ -15,20 +15,40 @@ ol
   margin: 0
   padding: 0
 
+p
+  margin-top: 0
+
 img
   border: 0
 
 a
   color: #300
-  padding: 7px 4px 0
   &:hover
-    background-color: #900
-    color: white
-    text-decoration: none
+    color: #900
 
-ol.albums, ol.photos
+li
+  margin-bottom: 40px
+
+ol.photos
+  display: inline-block
   li
-    margin-bottom: 15px
+    text-align: center
+    img
+      vertical-align: top
+    .meta
+      visibility: hidden
+      float: right
+      width: 400px
+      text-align: left
+      margin-left: 30px
+      font-size: 14px
+
+    &:hover
+      .meta
+        visibility: visible
+    .time
+      color: #888
+      margin-left: 40px
 
 .photos img
   border: 1px solid #666
@@ -37,10 +57,13 @@ ol.albums, ol.photos
 
 .albums
   a
+    padding: 7px 4px 0
     display: inline-block
     text-decoration: none
     border-bottom: 1px solid #300
     &:hover
+      background-color: #900
+      color: white
       border-bottom: 1px solid #900
 
 #how_it_works

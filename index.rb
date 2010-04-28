@@ -35,7 +35,7 @@ def add_http_cache
 end
 
 def user_url(username)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,entry(title,gphoto:id,gphoto:name,media:group(media:thumbnail))")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,entry(title,summary,gphoto:id,gphoto:name,gphoto:location,media:group(media:thumbnail))")
 end
 
 def user(username)
@@ -45,8 +45,10 @@ def user(username)
   feed = JSON.parse(response.body)['feed']
   albums = feed['entry'].map do |album|
     { :title => album["title"]["$t"],
+      :summary => album["summary"]["$t"],
       :id => album["gphoto$id"]["$t"],
       :uri => album["gphoto$name"]["$t"],
+      :location => album["gphoto$location"]["$t"],
       :thumbnail => album["media$group"]["media$thumbnail"][0]["url"]
     }
   end
@@ -54,7 +56,7 @@ def user(username)
 end
 
 def album_url(username, album)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,entry(content)")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,entry(content,media:group(media:description),gphoto:timestamp)")
 end
 
 def photo_with_size(url, size)
@@ -68,7 +70,10 @@ def album(username, album)
 
   feed = JSON.parse(response.body)['feed']
   photos = feed['entry'].map do |photo|
-    { :src => photo["content"]["src"] }
+    { :src => photo["content"]["src"],
+      :description => photo["media$group"]["media$description"]["$t"],
+      :time => Time.at(photo["gphoto$timestamp"]["$t"].to_i / 1000)
+    }
   end
   { :title => feed["title"]["$t"], :photos => photos }
 end
@@ -76,4 +81,47 @@ end
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
+
+  def album_title(album)
+    title = h album[:summary]
+    title += "@#{h album[:location]}" unless album[:location].empty?
+  end
+
+  AUTO_LINK_RE = %r{
+      ( https?:// | www\. )
+      [^\s<]+
+    }x unless const_defined?(:AUTO_LINK_RE)
+
+  BRACKETS = { ']' => '[', ')' => '(', '}' => '{' }
+
+  # Thank you rails!
+  # Turns all urls into clickable links.  If a block is given, each url
+  # is yielded and the result is used as the link text.
+  def auto_link_urls(text, html_options = {})
+    link_attributes = html_options
+    text.gsub(AUTO_LINK_RE) do
+      href = $&
+      punctuation = ''
+      left, right = $`, $'
+      # detect already linked URLs and URLs in the middle of a tag
+      if left =~ /<[^>]+$/ && right =~ /^[^>]*>/
+        # do not change string; URL is alreay linked
+        href
+      else
+        # don't include trailing punctuation character as part of the URL
+        if href.sub!(/[^\w\/-]$/, '') and punctuation = $& and opening = BRACKETS[punctuation]
+          if href.scan(opening).size > href.scan(punctuation).size
+            href << punctuation
+            punctuation = ''
+          end
+        end
+
+        link_text = block_given?? yield(href) : href
+        href = 'http://' + href unless href.index('http') == 0
+
+        "<a href=\"#{href}\">#{h(link_text)}</a>" + punctuation
+      end
+    end
+  end
 end
+

@@ -3,4 +3,8 @@
 %ol.photos
   - @album[:photos].each do |photo|
     %li
-      %img{ :src => photo_with_size(photo[:src], 400) }
+      %img{ :src => photo_with_size(photo[:src], 512) }
+      %div.meta
+        %p= auto_link_urls(h photo[:description])
+        %p.time
+          = photo[:time].strftime("%B %d, %Y")

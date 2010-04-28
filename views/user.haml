@@ -7,5 +7,5 @@
 %ol.albums
   - @user[:albums].each do |album|
     %li
-      %a{ :href => "/#{URI.encode(params[:username])}/#{album[:id]}/#{album[:uri]}" }
+      %a{ :href => "/#{URI.encode(params[:username])}/#{album[:id]}/#{album[:uri]}", :title => album_title(album) }
         =h album[:title]
