@@ -19,15 +19,12 @@ img
   border: 0
 
 a
-  display: inline-block
-  padding: 7px 4px 0
   color: #300
-  text-decoration: none
-  border-bottom: 1px solid #300
+  padding: 7px 4px 0
   &:hover
     background-color: #900
     color: white
-    border-bottom: 1px solid #900
+    text-decoration: none
 
 ol.albums, ol.photos
   li
@@ -37,3 +34,14 @@ ol.albums, ol.photos
   border: 1px solid #666
   min-width: 100px
   min-height: 100px
+
+.albums
+  a
+    display: inline-block
+    text-decoration: none
+    border-bottom: 1px solid #300
+    &:hover
+      border-bottom: 1px solid #900
+
+#how_it_works
+  margin-top: 50px

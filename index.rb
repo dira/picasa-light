@@ -6,7 +6,7 @@ require 'haml'
 require 'sass'
 
 get '/' do
-  "Must add help here"
+  haml :index
 end
 
 get '/stylesheet.css' do
