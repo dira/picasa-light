@@ -1,5 +1,5 @@
 %h1
-  = @user[:name]
+  =h @user[:name]
   has
   = @user[:albums].size
   albums:
@@ -7,5 +7,5 @@
 %ol.albums
   - @user[:albums].each do |album|
     %li
-      %a{ :href => "/#{params[:username]}/#{album[:id]}/#{album[:uri]}" }
-        = album[:title]
+      %a{ :href => "/#{URI.encode(params[:username])}/#{album[:id]}/#{album[:uri]}" }
+        =h album[:title]

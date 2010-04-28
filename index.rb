@@ -17,6 +17,7 @@ end
 get '/:username/?' do
   @user = user(params[:username]) rescue error(404, "Wrong user name, must be the same as in Picasa")
   add_http_cache
+  @page_title = @user[:name]
   haml :user
 end
 
@@ -24,6 +25,7 @@ end
   get route do
     @album = album(params[:username], params[:album_id]) rescue error(404, "Wrong user name or album, how did you get here?")
     add_http_cache
+    @page_title = @album[:title]
     haml :album
   end
 end
@@ -69,4 +71,9 @@ def album(username, album)
     { :src => photo["content"]["src"] }
   end
   { :title => feed["title"]["$t"], :photos => photos }
+end
+
+helpers do
+  include Rack::Utils
+  alias_method :h, :escape_html
 end
