@@ -15,13 +15,13 @@ get '/stylesheet.css' do
 end
 
 get '/:username/?' do
-  @user = user(params[:username])
+  @user = user(params[:username]) rescue error(404, "Wrong user name, must be the same as in Picasa")
   haml :user
 end
 
 ['/:username/:album_id/*/?', '/:username/:album_id/?'].each do |route|
   get route do
-    @album = album(params[:username], params[:album_id])
+    @album = album(params[:username], params[:album_id]) rescue error(404, "Wrong user name or album, how did you get here?")
     haml :album
   end
 end
@@ -32,8 +32,10 @@ def user_url(username)
 end
 
 def user(username)
-  content = Net::HTTP.get(user_url(username))
-  feed = JSON.parse(content)['feed']
+  response = Net::HTTP.get_response(user_url(username))
+  throw "Inexistent user" unless response.is_a? Net::HTTPOK
+
+  feed = JSON.parse(response.body)['feed']
   albums = feed['entry'].map do |album|
     { :title => album["title"]["$t"],
       :id => album["gphoto$id"]["$t"],
@@ -54,8 +56,10 @@ def photo_with_size(url, size)
 end
 
 def album(username, album)
-  content = Net::HTTP.get(album_url(username, album))
-  feed = JSON.parse(content)['feed']
+  response = Net::HTTP.get_response(album_url(username, album))
+  throw "Inexistent user or album" unless response.is_a? Net::HTTPOK
+
+  feed = JSON.parse(response.body)['feed']
   photos = feed['entry'].map do |photo|
     { :src => photo["content"]["src"] }
   end
