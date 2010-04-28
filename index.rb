@@ -16,16 +16,21 @@ end
 
 get '/:username/?' do
   @user = user(params[:username]) rescue error(404, "Wrong user name, must be the same as in Picasa")
+  add_http_cache
   haml :user
 end
 
 ['/:username/:album_id/*/?', '/:username/:album_id/?'].each do |route|
   get route do
     @album = album(params[:username], params[:album_id]) rescue error(404, "Wrong user name or album, how did you get here?")
+    add_http_cache
     haml :album
   end
 end
 
+def add_http_cache
+  cache_control :public, :max_age => 60*60
+end
 
 def user_url(username)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,entry(title,gphoto:id,gphoto:name,media:group(media:thumbnail))")
