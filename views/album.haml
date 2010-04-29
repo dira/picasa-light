@@ -11,8 +11,8 @@
   - @album[:photos].each do |photo|
     %li
       %a{ :name => photo[:id] }
-      - size = photo_size(photo, max)
-      %img{ :src => photo_with_size(photo[:src], max), :alt => photo[:title], :width => size[:width], :height => size[:height] }
+      - size = PicasaAPI::photo_size(photo, max)
+      %img{ :src => PicasaAPI::photo_with_size(photo[:src], max), :alt => photo[:title], :width => size[:width], :height => size[:height] }
       %div.meta
         - unless photo[:description].empty?
           %p= auto_link_urls(h photo[:description])
