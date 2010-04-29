@@ -14,4 +14,8 @@
         =h album[:title]
 
 .navigation
-  %a{ :href => @user[:link] } View these albums on PicasaWeb
+  You can view these albums on
+  %a{ :href => @user[:link] } Picasa
+.navigation
+  %a{ :href => '/' } home
+  = "/ #{h @user[:name]}"
