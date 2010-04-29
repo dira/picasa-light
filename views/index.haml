@@ -1,3 +1,20 @@
+%h1 Picasa could be light
+
+%p
+  But it's not. So this is a light viewer, inspired by
+  %a{ :href => "http://ihardlyknowher.com/" } a minimalist Flickr viewer
+  \.
+
+#how_it_works
+  %p
+    %form
+      http://picasaweb.google.com/
+      %input#picasa_id{ :value => "your picasa id" }
+  %p
+    becomes
+  %p
+    %a#light_link_id{ :href => ""}
+
 :javascript
   window.onload = init;
   host = document.location;
@@ -30,21 +47,3 @@
     update(value);
     setInterval(is_changed, 300);
   }
-
-
-%h1 Picasa could be light
-
-%p
-  But it's not. So this is a light viewer, inspired by
-  %a{ :href => "http://ihardlyknowher.com/" } a minimalist Flickr viewer
-  \.
-
-#how_it_works
-  %p
-    %form
-      http://picasaweb.google.com/
-      %input#picasa_id{ :value => "your picasa id" }
-  %p
-    becomes
-  %p
-    %a#light_link_id{ :href => ""}
