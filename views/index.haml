@@ -1,3 +1,29 @@
+:javascript
+  window.onload = init;
+  host = document.location;
+
+  function is_changed() {
+    if (source.value != value) {
+      value = source.value;
+      update(value);
+    }
+  }
+
+  function update(value) {
+    target.href = host + escape(value);
+    target.innerHTML = host + value;
+  }
+
+  function init() {
+    source = document.getElementById("picasa_id");
+    target = document.getElementById("light_link_id");
+
+    value = source.value;
+    update(value);
+    setInterval(is_changed, 300);
+  }
+
+
 %h1 Picasa could be light
 
 %p
@@ -7,8 +33,9 @@
 
 #how_it_works
   %p
-    %a{ :href => "http://picasaweb.google.com/irina.dumitrascu/"} http://picasaweb.google.com/irina.dumitrascu/
+    http://picasaweb.google.com/
+    %input#picasa_id{ :value => "your picasa id" }
   %p
     becomes
   %p
-    %a{ :href => "http://picasa-light.heroku.com/irina.dumitrascu"} http://picasa-light.heroku.com/irina.dumitrascu
+    %a#light_link_id{ :href => ""}
