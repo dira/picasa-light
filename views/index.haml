@@ -14,8 +14,16 @@
     target.innerHTML = host + value;
   }
 
+  function goto_target() {
+    document.location = target.href;
+    return false;
+  }
+
   function init() {
     source = document.getElementById("picasa_id");
+    source.select();
+    source.focus();
+    source.parentNode.onsubmit = goto_target;
     target = document.getElementById("light_link_id");
 
     value = source.value;
@@ -33,8 +41,9 @@
 
 #how_it_works
   %p
-    http://picasaweb.google.com/
-    %input#picasa_id{ :value => "your picasa id" }
+    %form
+      http://picasaweb.google.com/
+      %input#picasa_id{ :value => "your picasa id" }
   %p
     becomes
   %p
