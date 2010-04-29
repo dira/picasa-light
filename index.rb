@@ -5,6 +5,8 @@ require 'net/http'
 require 'haml'
 require 'sass'
 
+before { mock_picasa if development? }
+
 get '/' do
   haml :index
 end
@@ -16,8 +18,9 @@ end
 
 get '/:username/?' do
   @user = user(params[:username]) rescue error(404, "Wrong user name, must be the same as in Picasa")
-  add_http_cache
   @page_title = @user[:name]
+
+  add_http_cache
   haml :user
 end
 
@@ -28,8 +31,9 @@ end
 ['/:username/:album_id/*/?', '/:username/:album_id/?'].each do |route|
   get route do
     @album = album(params[:username], params[:album_id]) rescue error(404, "Wrong user name or album, how did you get here?")
-    add_http_cache
     @page_title = @album[:title]
+
+    add_http_cache
     haml :album
   end
 end
@@ -37,6 +41,7 @@ end
 def add_http_cache
   cache_control :public, :max_age => 60*60
 end
+
 
 def api_url_user(username)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}?alt=json&fields=author,link[@rel='alternate'],entry(title,summary,gphoto:id,gphoto:name,gphoto:location,media:group(media:thumbnail))")
@@ -58,6 +63,7 @@ def user(username)
   end
   { :name => feed["author"][0]["name"]["$t"], :link => feed["link"][0]["href"], :albums => albums }
 end
+
 
 def api_url_album(username, album)
   URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,author,link[@rel='alternate'],entry(content,media:group(media:description),gphoto:timestamp)")
@@ -81,6 +87,17 @@ def album(username, album)
   end
   { :title => feed["title"]["$t"], :author => feed["author"][0]["name"]["$t"], :link => feed["link"][0]["href"], :photos => photos }
 end
+
+
+def mock_picasa
+  require 'fakeweb'
+  user_content = File.read(File.dirname(__FILE__) + "/test/fixtures/user.json")
+  FakeWeb.register_uri(:get, %r(http://picasaweb.google.com/data/feed/api/user/[^/]*$), :body => user_content)
+
+  album_content = File.read(File.dirname(__FILE__) + "/test/fixtures/album.json")
+  FakeWeb.register_uri(:get, %r(http://picasaweb.google.com/data/feed/api/user/[^/]*/albumid/.*), :body => album_content)
+end
+
 
 helpers do
   include Rack::Utils
@@ -128,4 +145,3 @@ helpers do
     end
   end
 end
-
