@@ -9,6 +9,7 @@
 %ol.photos
   - @album[:photos].each do |photo|
     %li
+      %a{ :name => photo[:id] }
       %img{ :src => photo_with_size(photo[:src], 512) }
       %div.meta
         - unless photo[:description].empty?

@@ -66,7 +66,7 @@ end
 
 
 def api_url_album(username, album)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,author,link[@rel='alternate'],entry(content,media:group(media:description),gphoto:timestamp)")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,author,link[@rel='alternate'],entry(content,media:group(media:description),gphoto:id,gphoto:timestamp)")
 end
 
 def photo_with_size(url, size)
@@ -81,6 +81,7 @@ def album(username, album)
   feed = JSON.parse(response.body)['feed']
   photos = feed['entry'].map do |photo|
     { :src => photo["content"]["src"],
+      :id => photo["gphoto$id"]["$t"],
       :description => photo["media$group"]["media$description"]["$t"],
       :time => Time.at(photo["gphoto$timestamp"]["$t"].to_i / 1000)
     }
