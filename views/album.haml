@@ -6,11 +6,13 @@
 
 %h1
   =h @album[:title]
+- max = 512
 %ol.photos
   - @album[:photos].each do |photo|
     %li
       %a{ :name => photo[:id] }
-      %img{ :src => photo_with_size(photo[:src], 512) }
+      - size = photo_size(photo, max)
+      %img{ :src => photo_with_size(photo[:src], max), :alt => photo[:title], :width => size[:width], :height => size[:height] }
       %div.meta
         - unless photo[:description].empty?
           %p= auto_link_urls(h photo[:description])

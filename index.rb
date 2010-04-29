@@ -66,7 +66,7 @@ end
 
 
 def api_url_album(username, album)
-  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,author,link[@rel='alternate'],entry(content,media:group(media:description),gphoto:id,gphoto:timestamp)")
+  URI.parse("http://picasaweb.google.com/data/feed/api/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=title,author,link[@rel='alternate'],entry(content,media:group(media:description),gphoto:id,gphoto:timestamp,title,gphoto:width,gphoto:height)")
 end
 
 def photo_with_size(url, size)
@@ -82,7 +82,10 @@ def album(username, album)
   photos = feed['entry'].map do |photo|
     { :src => photo["content"]["src"],
       :id => photo["gphoto$id"]["$t"],
+      :title => photo["title"]["$t"],
       :description => photo["media$group"]["media$description"]["$t"],
+      :width => photo["gphoto$width"]["$t"],
+      :height => photo["gphoto$height"]["$t"],
       :time => Time.at(photo["gphoto$timestamp"]["$t"].to_i / 1000)
     }
   end
@@ -107,6 +110,15 @@ helpers do
   def album_title(album)
     title = h album[:summary]
     title += "@#{h album[:location]}" unless album[:location].empty?
+  end
+
+  def photo_size(photo, max)
+    width, height = photo[:width].to_i, photo[:height].to_i
+    if width > height
+      { :width => max, :height => (height * max.to_f / width).round }
+    else
+      { :width => (width * max.to_f  / height).round, :height => max }
+    end
   end
 
   AUTO_LINK_RE = %r{
