@@ -8,7 +8,7 @@ require 'lib/picasa'
 require 'lib/helpers'
 
 class LightPicasa < Sinatra::Base
-  before { mock_picasa if development? }
+  #before { mock_picasa if development? }
 
   get '/' do
     haml :index
