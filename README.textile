@@ -1,3 +1,3 @@
-picasa-light. For people annoyed by the quantity of UI and JS in Picasa.
+"picasa-light":http://picasa-light.heroku.com/. For people annoyed by the quantity of UI and JS in Picasa.
 
 !http://img.skitch.com/20100430-qa52s937nsrh763q5t1s2jixpc.jpg!
