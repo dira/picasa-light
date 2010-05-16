@@ -8,7 +8,6 @@ require 'lib/picasa'
 require 'lib/helpers'
 
 class LightPicasa < Sinatra::Base
-  #before { mock_picasa if development? }
 
   get '/' do
     haml :index
@@ -43,15 +42,6 @@ class LightPicasa < Sinatra::Base
 
   def add_http_cache
     cache_control :public, :max_age => 60*60
-  end
-
-  def mock_picasa
-    require 'fakeweb'
-    user_content = File.read(File.dirname(__FILE__) + "/test/fixtures/user.json")
-    FakeWeb.register_uri(:get, %r(http://picasaweb.google.com/data/feed/api/user/[^/]*$), :body => user_content)
-
-    album_content = File.read(File.dirname(__FILE__) + "/test/fixtures/album.json")
-    FakeWeb.register_uri(:get, %r(http://picasaweb.google.com/data/feed/api/user/[^/]*/albumid/.*), :body => album_content)
   end
 
   helpers do
