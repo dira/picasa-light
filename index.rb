@@ -19,6 +19,8 @@ class LightPicasa < Sinatra::Base
   end
 
   get '/:username/?' do
+    pass if (params[:username].downcase == 'javascript')
+
     @user = PicasaAPI::user(params[:username]) rescue error(404, "Wrong user name, must be the same as in Picasa")
     @page_title = @user[:name]
 
@@ -32,6 +34,8 @@ class LightPicasa < Sinatra::Base
 
   ['/:username/:album_id/*/?', '/:username/:album_id/?'].each do |route|
     get route do
+      pass if (params[:username].downcase == 'javascript')
+
       @album = PicasaAPI::album(params[:username], params[:album_id]) rescue error(404, "Wrong user name or album, how did you get here?")
       @page_title = @album[:title]
 
