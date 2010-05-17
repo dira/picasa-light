@@ -8,6 +8,7 @@ require 'lib/picasa'
 require 'lib/helpers'
 
 class LightPicasa < Sinatra::Base
+  set :public, "public"
 
   get '/' do
     haml :index
