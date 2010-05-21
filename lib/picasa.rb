@@ -24,9 +24,9 @@ class PicasaAPI
     end
   end
 
-  def self.photo_with_size(url, size)
-    url = url.gsub(/\/s\d{1,3}(-.)?/, '') # remove the size specifier, if present
-    url.gsub(/(\/[^\/]+)$/, '/s' + size.to_s + '\1') # add the new one
+  def self.url_for_dimension(url, dimension)
+    url = url.gsub(/\/s\d{1,3}(-.)?/, '') # remove the dimension specifier, if present
+    url.gsub(/(\/[^\/]+)$/, '/s' + dimension.to_s + '\1') # add the new one
   end
 
   def self.user(username)

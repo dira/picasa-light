@@ -1,35 +1,47 @@
-$(document).ready(ready);
-PAGE_SIZE = 2;
-last = null;
+Ro = {}
+Ro.Dira = {1:1
+  ,HOW_MANY_IN_PARALLEL : 4
+  ,ready: function() {
+    var noscript = $('.photos noscript');
+    var html = noscript.decodeHTML()[0];
 
-function ready() {
-  elements = $('.photos li');
+    var container = document.createElement('ol');
+    noscript.after(container);
 
-  elements.slice(PAGE_SIZE).children('img').each(prevent_loading);
-  $('.photos').show();
+    var lines = html.split("\n");
+    Ro.Dira.items = $.map(lines, function(element){ return element.indexOf("<li") > -1 ? element : null });
+    Ro.Dira.container = $(container);
 
-  last = $(elements[Math.min(PAGE_SIZE - 1, elements.size() - 1)]);
-  $(window).scroll(scrolled);
-}
+    Ro.Dira.loadPhotos(Ro.Dira.HOW_MANY_IN_PARALLEL);
+  }
 
-function load(index, image) {
-  $(image).parent('li').show();
-  image.src = $(image).data("src");
-}
+  ,loadPhotos: function(how_many) {
+    if (Ro.Dira.items.length == 0) return;
 
-function prevent_loading(index, image) {
-  $(image).parent('li').hide();
-  $(image).data("src", image.src);
-  image.src = "/empty.png";
-}
+    Ro.Dira.current_batch = Ro.Dira.items.splice(0, how_many);
+    $.each(Ro.Dira.current_batch, function(i, element) { Ro.Dira.createItem(element) });
+  }
 
-function scrolled(){
-  if (!last || !last.next()) return;
+  ,createItem: function(html) {
+    Ro.Dira.container.append(html);
 
-  if ($(window).height() + 200 >= last.offset().top + last.height() - $(window).scrollTop()) {
-    var elements = last.nextAll();
-    elements = elements.slice(0, PAGE_SIZE);
-    last = (elements.size() > 0 ? $(elements.last()) : null);
-    elements.children('img').each(load);
+    var img = $('img', Ro.Dira.container).last();
+    if (img[0].complete) {
+      Ro.Dira.photoLoaded();
+    } else {
+      img.bind('load', Ro.Dira.photoLoaded).bind('error', Ro.Dira.photoLoaded);
+    }
+  }
+
+  ,photoLoaded: function() {
+    Ro.Dira.loadPhotos(1);
   }
 }
+
+jQuery.fn.decodeHTML = function() {
+  return this.map(function(){
+    return jQuery(this).html().replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  });
+};
+
+$(document).ready(Ro.Dira.ready);

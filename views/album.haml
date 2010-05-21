@@ -10,19 +10,21 @@
 %h1
   =h @album[:title]
 
-- dimension = 512
-%ol.photos{ :style => "display:none"}
-  - @album[:photos].each_with_index do |photo, i|
-    %li
-      %a{ :name => photo[:id] }
-      - size = PicasaAPI::photo_size(photo, dimension)
-      %img{ :src => PicasaAPI::photo_with_size(photo[:src], dimension), :alt => photo[:title],
-            :width => size[:width], :height => size[:height] }
-      %div.meta
-        - unless photo[:description].empty?
-          %p= auto_link_urls(h photo[:description])
-        %p.time
-          = photo[:time].strftime("%B %d, %Y")
+.photos
+  %noscript<
+    %ol
+      - dimension = 512
+      - @album[:photos].each_with_index do |photo, i|
+        %li
+          %a{ :name => photo[:id] }>
+          - size = PicasaAPI::photo_size(photo, dimension)
+          %img{ :src => PicasaAPI::url_for_dimension(photo[:src], dimension), :alt => photo[:title],
+                :width => "#{size[:width]}px", :height => "#{size[:height]}px" }>
+          %div.meta>
+            - unless photo[:description].empty?
+              %p= auto_link_urls(h photo[:description])
+            %p.time<>
+              = photo[:time].strftime("%B %d, %Y")
 
 .navigation
   You can view this album on
