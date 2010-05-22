@@ -22,7 +22,7 @@
                 :width => "#{size[:width]}px", :height => "#{size[:height]}px" }>
           %div.meta>
             - unless photo[:description].empty?
-              %p= auto_link_urls(h photo[:description])
+              %p>= auto_link_urls(h photo[:description])
             %p.time<>
               = photo[:time].strftime("%B %d, %Y")
 
