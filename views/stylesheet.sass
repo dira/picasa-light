@@ -47,7 +47,6 @@ li
 .photos
   display: inline-block
   li
-    text-align: center
     margin-bottom: 40px
     img
       vertical-align: top
@@ -59,13 +58,13 @@ li
       text-align: left
       margin-left: 30px
       font-size: 15px
-
     &:hover
       .meta
         visibility: visible
-    .time
+    .time, .link
       margin-left: 40px
-      color: #888
+      &, & a
+        color: #888
 
 .albums
   margin-left: 20px

@@ -32,3 +32,4 @@
               %p>= auto_link_urls(h photo[:description])
             %p.time<>
               = photo[:time].strftime("%B %d, %Y")
+            %a{ :href => "##{photo[:id]}", :class => "link" }> link to this photo
