@@ -17,13 +17,16 @@
 .photos
   %noscript<
     %ol
-      - dimension = 512
+      - small = 400
+      - big = 720
       - @album[:photos].each_with_index do |photo, i|
         %li
-          %a{ :name => photo[:id] }>
-          - size = PicasaAPI::photo_size(photo, dimension)
-          %img{ :src => PicasaAPI::url_for_dimension(photo[:src], dimension), :alt => photo[:title],
-                :width => "#{size[:width]}px", :height => "#{size[:height]}px" }>
+          - size = PicasaAPI::photo_size(photo, small)
+          - size_big = PicasaAPI::photo_size(photo, big)
+          %a{ :href => "##{photo[:id]}", :name => photo[:id] }>
+            %img{ :src => PicasaAPI::url_for_dimension(photo[:src], small), :width => "#{size[:width]}", :height => "#{size[:height]}",
+                  "data-big-src" => PicasaAPI::url_for_dimension(photo[:src], big), "data-big-width" => "#{size_big[:width]}", "data-big-height" => "#{size_big[:height]}",
+                  :alt => photo[:title] }>
           %div.meta>
             - unless photo[:description].empty?
               %p>= auto_link_urls(h photo[:description])

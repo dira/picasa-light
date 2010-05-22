@@ -8,7 +8,7 @@ Ro.Dira = {1:1
     noscript.after(container);
     Ro.Dira.container = $(container);
 
-    Ro.Dira.picture = document.location.hash ? document.location.hash.slice(1) : null;
+    Ro.Dira.targetPicture = document.location.hash ? document.location.hash.slice(1) : null;
 
     Ro.Dira.getNoscriptContents(noscript, Ro.Dira.gotNoscript);
   }
@@ -35,17 +35,49 @@ Ro.Dira = {1:1
     } else {
       img.bind('load', Ro.Dira.photoLoaded).bind('error', Ro.Dira.photoLoaded);
     }
+
+    var a = img.parents('.photos li a');
+    a.bind('click', Ro.Dira.imageClicked);
   }
 
   ,photoLoaded: function() {
-    if (Ro.Dira.picture) {
-      var image = $('a[name=' + Ro.Dira.picture + ']');
-      if (image.length > 0) {
-        $('html').scrollTop(image.offset().top);
-        Ro.Dira.picture = null;
-      }
-    }
+    Ro.Dira.goToTargetPicture();
     Ro.Dira.loadPhotos(1);
+  }
+
+  ,goToTargetPicture: function() {
+    if (!Ro.Dira.targetPicture) return;
+
+    var image = $('a[name=' + Ro.Dira.targetPicture + ']');
+    if (image.length == 0) return;
+
+    $('html').scrollTop(image.offset().top);
+    Ro.Dira.targetPicture = null;
+  }
+
+  ,imageClicked: function(e) {
+    var a = $(e.currentTarget);
+    var small = $('img', a).first();
+    var big = small.next();
+
+    if (!(a.hasClass('small') || a.hasClass('big'))) {
+      a.addClass('small');
+    }
+
+    if (a.hasClass('small')) {
+      if (big.length == 0) {
+        var big = small.clone();
+        big.attr( {
+          src: big.attr('data-big-src'),
+          width: big.attr('data-big-width'), height: big.attr('data-big-height')
+        });
+        big.appendTo(a);
+      }
+      small.hide(); big.show();
+    } else {
+      small.show(); big.hide();
+    }
+    a.toggleClass('small').toggleClass('big');
   }
 
   ,getNoscriptContents: function(noscript, continuation) {
