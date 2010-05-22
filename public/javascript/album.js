@@ -15,7 +15,7 @@ Ro.Dira = {1:1
 
   ,gotNoscript: function(noscriptText) {
     var lines = noscriptText.split("\n");
-    Ro.Dira.items = $.map(lines, function(element){ return element.indexOf("<li") > -1 ? element : null });
+    Ro.Dira.items = $.map(lines, function(element){ return element.contains("<li") ? element : null });
     Ro.Dira.loadPhotos(Ro.Dira.HOW_MANY_IN_PARALLEL);
   }
 
@@ -74,13 +74,13 @@ Ro.Dira = {1:1
     var insideNoscript = false;
     var lines = $.map(data.split("\n"), function(line){
       if (insideNoscript) {
-        if (line.indexOf("</noscript") > -1) {
+        if (line.contains("</noscript")) {
           insideNoscript = false;
           return null;
         }
         return line;
       } else {
-        if (line.indexOf("<noscript") > -1) {
+        if (line.contains("<noscript")) {
           insideNoscript = true;
         }
         return null;
@@ -88,6 +88,10 @@ Ro.Dira = {1:1
     });
     return lines.join("\n");
   }
+}
+
+String.prototype.contains = function(substring) {
+  return this.indexOf(substring) > -1;
 }
 
 jQuery.fn.decodeHTML = function() {
