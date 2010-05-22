@@ -8,6 +8,8 @@ Ro.Dira = {1:1
     noscript.after(container);
     Ro.Dira.container = $(container);
 
+    Ro.Dira.picture = document.location.hash ? document.location.hash.slice(1) : null;
+
     Ro.Dira.getNoscriptContents(noscript, Ro.Dira.gotNoscript);
   }
 
@@ -36,6 +38,13 @@ Ro.Dira = {1:1
   }
 
   ,photoLoaded: function() {
+    if (Ro.Dira.picture) {
+      var image = $('a[name=' + Ro.Dira.picture + ']');
+      if (image.length > 0) {
+        $('html').scrollTop(image.offset().top);
+        Ro.Dira.picture = null;
+      }
+    }
     Ro.Dira.loadPhotos(1);
   }
 
