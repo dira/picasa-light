@@ -7,8 +7,12 @@
   %a{ :href => user_url(params[:username]) }
     ="#{h @album[:author]}"
 
-%h1
-  =h @album[:title]
+#header
+  %h1
+    =h @album[:title]
+
+  .navigation
+    %a{ :href => @album[:link] } on Picasa
 
 .photos
   %noscript<
@@ -25,13 +29,3 @@
               %p>= auto_link_urls(h photo[:description])
             %p.time<>
               = photo[:time].strftime("%B %d, %Y")
-
-.navigation
-  You can view this album on
-  %a{ :href => @album[:link] } Picasa
-.navigation
-  %a{ :href => '/' } home
-  \/
-  %a{ :href => user_url(params[:username]) }
-    ="#{h @album[:author]}"
-  = "/ #{h @album[:title]}"
