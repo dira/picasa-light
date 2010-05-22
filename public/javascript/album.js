@@ -27,16 +27,19 @@ Ro.Dira = {1:1
   }
 
   ,createItem: function(html) {
+    var lastItem = $('li', Ro.Dira.container).last();
     Ro.Dira.container.append(html);
+    var item = lastItem.next();
+    if (item.length == 0) item = $('li', Ro.Dira.container).first();
 
-    var img = $('img', Ro.Dira.container).last();
+    var img = $('img', item);
     if (img[0].complete) {
       Ro.Dira.photoLoaded();
     } else {
       img.bind('load', Ro.Dira.photoLoaded).bind('error', Ro.Dira.photoLoaded);
     }
 
-    var a = img.parents('.photos li a');
+    var a = $('a', item);
     a.bind('click', Ro.Dira.imageClicked);
   }
 
