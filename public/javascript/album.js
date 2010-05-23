@@ -6,7 +6,7 @@ Ro.Dira = {1:1
     var container = document.createElement('ol');
     noscript.after(container);
     Ro.Dira.container = $(container);
-    Ro.Dira.targetPicture = document.location.hash ? document.location.hash.slice(1) : null;
+    Ro.Dira.targetPhoto = document.location.hash ? document.location.hash.slice(1) : null;
 
     Ro.Dira.getNoscriptContents(noscript, Ro.Dira.gotNoscript);
   }
@@ -14,51 +14,55 @@ Ro.Dira = {1:1
   ,gotNoscript: function(noscriptText) {
     var lines = noscriptText.split("\n");
     lines = $.map(lines, function(element){ return element.contains("<li") ? element : null });
-    if (Ro.Dira.targetPicture) {
-      lines = $.map(lines, function(element){ return element.contains("name='" + Ro.Dira.targetPicture + "'") ? element : null });
+    if (Ro.Dira.targetPhoto) {
+      lines = $.map(lines, function(element){ return element.contains("name='" + Ro.Dira.targetPhoto + "'") ? element : null });
     }
-    Ro.Dira.items = lines;
+    Ro.Dira.photosHtml = lines;
     Ro.Dira.loadPhotos(Ro.Dira.HOW_MANY_IN_PARALLEL);
   }
 
   ,loadPhotos: function(how_many) {
-    if (Ro.Dira.items.length == 0) {
+    if (Ro.Dira.photosHtml.length == 0) {
       Ro.Dira.loadingEnded();
       return;
     }
 
-    Ro.Dira.current_batch = Ro.Dira.items.splice(0, how_many);
-    $.each(Ro.Dira.current_batch, function(i, itemHtml) { Ro.Dira.createItem(itemHtml) });
+    Ro.Dira.current_batch = Ro.Dira.photosHtml.splice(0, how_many);
+    $.each(Ro.Dira.current_batch, function(i, photoHtml) { Ro.Dira.createPhoto(photoHtml) });
   }
 
-  ,createItem: function(html) {
-    var lastItem = $('li', Ro.Dira.container).last();
+  ,createPhoto: function(html) {
+    var lastPhoto = $('li', Ro.Dira.container).last();
     Ro.Dira.container.append(html);
-    var item = lastItem.next();
-    if (item.length == 0) item = $('li', Ro.Dira.container).first();
+    var photo = lastPhoto.next();
+    if (photo.length == 0) photo = $('li', Ro.Dira.container).first();
 
-    var img = $('img', item);
+    var img = $('img', photo);
     if (img[0].complete) {
-      Ro.Dira.photoLoaded();
+      Ro.Dira.imageLoaded();
     } else {
-      img.bind('load', Ro.Dira.photoLoaded).bind('error', Ro.Dira.photoLoaded);
+      img.bind('load', Ro.Dira.imageLoaded).bind('error', Ro.Dira.imageLoaded);
     }
 
-    var a = $('a', item);
-    a.bind('click', Ro.Dira.imageClicked);
+    var a = $('a', photo);
+    a.bind('click', Ro.Dira.photoClicked);
   }
 
-  ,photoLoaded: function() {
+  ,imageLoaded: function() {
     Ro.Dira.loadPhotos(1);
   }
 
   ,loadingEnded: function() {
-    if (Ro.Dira.targetPicture) {
-      Ro.Dira.container.after('<a href="' + document.location.href.match(/[^#]*/) + '">All pictures</a>')
+    if (Ro.Dira.targetPhoto) {
+      Ro.Dira.container.after('<a href="' + Ro.Dira.albumUrl() + '">Entire album</a>')
     }
   }
 
-  ,imageClicked: function(e) {
+  ,albumUrl: function() {
+    return document.location.href.match(/[^#]*/);
+  }
+
+  ,photoClicked: function(e) {
     var a = $(e.currentTarget);
     var small = $('img', a).first();
     var big = small.next();
