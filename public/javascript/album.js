@@ -4,10 +4,8 @@ Ro.Dira = {1:1
   ,ready: function() {
     var noscript = $('.photos noscript');
     var container = document.createElement('ol');
-
     noscript.after(container);
     Ro.Dira.container = $(container);
-
     Ro.Dira.targetPicture = document.location.hash ? document.location.hash.slice(1) : null;
 
     Ro.Dira.getNoscriptContents(noscript, Ro.Dira.gotNoscript);
@@ -15,12 +13,19 @@ Ro.Dira = {1:1
 
   ,gotNoscript: function(noscriptText) {
     var lines = noscriptText.split("\n");
-    Ro.Dira.items = $.map(lines, function(element){ return element.contains("<li") ? element : null });
+    lines = $.map(lines, function(element){ return element.contains("<li") ? element : null });
+    if (Ro.Dira.targetPicture) {
+      lines = $.map(lines, function(element){ return element.contains("name='" + Ro.Dira.targetPicture + "'") ? element : null });
+    }
+    Ro.Dira.items = lines;
     Ro.Dira.loadPhotos(Ro.Dira.HOW_MANY_IN_PARALLEL);
   }
 
   ,loadPhotos: function(how_many) {
-    if (Ro.Dira.items.length == 0) return;
+    if (Ro.Dira.items.length == 0) {
+      Ro.Dira.loadingEnded();
+      return;
+    }
 
     Ro.Dira.current_batch = Ro.Dira.items.splice(0, how_many);
     $.each(Ro.Dira.current_batch, function(i, itemHtml) { Ro.Dira.createItem(itemHtml) });
@@ -44,18 +49,13 @@ Ro.Dira = {1:1
   }
 
   ,photoLoaded: function() {
-    Ro.Dira.goToTargetPicture();
     Ro.Dira.loadPhotos(1);
   }
 
-  ,goToTargetPicture: function() {
-    if (!Ro.Dira.targetPicture) return;
-
-    var image = $('a[name=' + Ro.Dira.targetPicture + ']');
-    if (image.length == 0) return;
-
-    $('html').scrollTop(image.offset().top);
-    Ro.Dira.targetPicture = null;
+  ,loadingEnded: function() {
+    if (Ro.Dira.targetPicture) {
+      Ro.Dira.container.after('<a href="' + document.location.href.match(/[^#]*/) + '">All pictures</a>')
+    }
   }
 
   ,imageClicked: function(e) {
