@@ -46,7 +46,7 @@ class LightPicasa < Sinatra::Base
   end
 
   def add_http_cache
-    cache_control :public, :max_age => 60*60
+    cache_control :public, :max_age => 60*60 if production?
   end
 
   helpers do
