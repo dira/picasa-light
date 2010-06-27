@@ -8,7 +8,7 @@ class PicasaAPI
   end
 
   def self.api_url_album(username, album)
-    global_fields = "title,author,link[@rel='alternate']"
+    global_fields = "gphoto:id,title,gphoto:name,author,link[@rel='alternate']"
     entry_fields = "content,media:group(media:description),gphoto:id,gphoto:timestamp,title,gphoto:width,gphoto:height"
     URI.parse("#{API_BASE}/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=#{global_fields},entry(#{entry_fields})")
   end
@@ -61,6 +61,12 @@ class PicasaAPI
         :time => Time.at(photo["gphoto$timestamp"]["$t"].to_i / 1000)
       }
     end
-    { :title => feed["title"]["$t"], :author => feed["author"][0]["name"]["$t"], :link => feed["link"][0]["href"], :photos => photos }
+    { :id => feed["gphoto$id"]["$t"],
+      :uri => feed["gphoto$name"]["$t"],
+      :title => feed["title"]["$t"],
+      :author => feed["author"][0]["name"]["$t"],
+      :link => feed["link"][0]["href"],
+      :photos => photos
+    }
   end
 end

@@ -1,10 +1,11 @@
 %script{ :type => "text/javascript", :src  => "/javascript/vendor/jquery.js" }
 %script{ :type => "text/javascript", :src  => "/javascript/album.js" }
 
+- username = params[:username]
 .navigation
   %a{ :href => '/' } home
   \/
-  %a{ :href => user_url(params[:username]) }
+  %a{ :href => user_url(username) }
     ="#{h @album[:author]}"
 
 #header
@@ -24,12 +25,14 @@
           - size = PicasaAPI::photo_size(photo, small)
           - size_big = PicasaAPI::photo_size(photo, big)
           %a{ :href => "##{photo[:id]}", :name => photo[:id] }>
-            %img{ :src => PicasaAPI::url_for_dimension(photo[:src], small), :width => "#{size[:width]}", :height => "#{size[:height]}",
-                  "data-big-src" => PicasaAPI::url_for_dimension(photo[:src], big), "data-big-width" => "#{size_big[:width]}", "data-big-height" => "#{size_big[:height]}",
-                  :alt => photo[:title] }>
+            %img{ :src => PicasaAPI::url_for_dimension(photo[:src], small), :alt => photo[:title],
+                  :width => "#{size[:width]}", :height => "#{size[:height]}",
+                  "data-big-src" => PicasaAPI::url_for_dimension(photo[:src], big),
+                  "data-big-width" => "#{size_big[:width]}", "data-big-height" => "#{size_big[:height]}" }>
           %div.meta>
             - unless photo[:description].empty?
               %p>= auto_link_urls(h photo[:description])
             %p.time<>
               = photo[:time].strftime("%B %d, %Y")
-            %a{ :href => "##{photo[:id]}", :class => "link", :target => "_new" }> link to this photo
+            %a{ :href => "##{photo[:id]}", :class => "link", :target => "_new" }> link
+            %a{ :href => %(javascript:prompt('Embed code:', '#{embed_code(username, @album, photo)}'))} embed

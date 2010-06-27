@@ -29,10 +29,6 @@ class LightPicasa < Sinatra::Base
     haml :user
   end
 
-  def user_url(username)
-    "/#{URI.escape(username)}"
-  end
-
   ['/:username/:album_id/*/?', '/:username/:album_id/?'].each do |route|
     get route do
       pass if (params[:username].downcase == 'javascript')

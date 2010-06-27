@@ -7,6 +7,25 @@ module Helpers
     title += "@#{h album[:location]}" unless album[:location].empty?
   end
 
+  def album_path(username, album)
+    "#{user_url(username)}/#{album[:id]}/#{album[:uri]}"
+  end
+
+  def album_url(username, album)
+    "http://#{request.host_with_port}#{album_path(username, album)}"
+  end
+
+  def embed_code(username, album, photo, dimension = 400)
+    size = PicasaAPI::photo_size(photo, dimension)
+    %(<a href="#{album_url(params[:username], @album)}##{photo[:id]}">
+        <img src="#{PicasaAPI::url_for_dimension(photo[:src], dimension)}" width="#{size[:width]}" height="#{size[:height]}"/>
+      </a>
+      <p>#{auto_link_urls(photo[:description])}</p>).gsub(/'/, "\\\\'")
+  end
+
+  def user_url(username)
+    "/#{URI.escape(username)}"
+  end
 
   # Thank you Rails!
   AUTO_LINK_RE = %r{
