@@ -17,10 +17,11 @@ module Helpers
 
   def embed_code(username, album, photo, dimension = 400)
     size = PicasaAPI::photo_size(photo, dimension)
-    %(<a href="#{album_url(params[:username], @album)}##{photo[:id]}">
+    embed = %(<a href="#{album_url(params[:username], @album)}##{photo[:id]}">
         <img src="#{PicasaAPI::url_for_dimension(photo[:src], dimension)}" width="#{size[:width]}" height="#{size[:height]}"/>
-      </a>
-      <p>#{auto_link_urls(photo[:description])}</p>).gsub(/'/, "\\\\'")
+      </a>)
+    embed += %(<p>#{auto_link_urls(photo[:description])}</p>) unless photo[:description].empty?
+    embed.gsub(/'/, "\\\\'")
   end
 
   def user_url(username)
