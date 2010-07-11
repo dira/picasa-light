@@ -21,7 +21,7 @@ module Helpers
         <img src="#{PicasaAPI::url_for_dimension(photo[:src], dimension)}" width="#{size[:width]}" height="#{size[:height]}"/>
       </a>)
     embed += %(<p>#{auto_link_urls(photo[:description])}</p>) unless photo[:description].empty?
-    embed.gsub(/'/, "\\\\'")
+    embed.gsub(/'/, "\\\\'").gsub(/"/, '\\\\"')
   end
 
   def user_url(username)

@@ -127,6 +127,11 @@ Ro.Dira = {1:1
     });
     return lines.join("\n");
   }
+
+  ,showEmbed: function(element) {
+    prompt('Embed code:', element.getAttribute('data-code').replace(/\\"/g, '"').replace(/\\'/g, "'"));
+    return false;
+  }
 }
 
 String.prototype.contains = function(substring) {
