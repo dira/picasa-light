@@ -31,7 +31,7 @@
                   "data-big-width" => "#{size_big[:width]}", "data-big-height" => "#{size_big[:height]}" }>
           %div.meta>
             - unless photo[:description].empty?
-              %p>= auto_link_urls(h photo[:description])
+              %p>= description_oneliner(photo[:description])
             %p.time<>
               = photo[:time].strftime("%B %d, %Y")
             %a{ :href => "##{photo[:id]}", :class => "link", :target => "_new" }> link

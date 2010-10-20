@@ -15,12 +15,16 @@ module Helpers
     "http://#{request.host_with_port}#{album_path(username, album)}"
   end
 
+  def description_oneliner(description)
+    auto_link_urls(h description.gsub(/\n/, "<br/>"))
+  end
+
   def embed_code(username, album, photo, dimension = 400)
     size = PicasaAPI::photo_size(photo, dimension)
     embed = %(<a href="#{album_url(params[:username], @album)}##{photo[:id]}">
         <img src="#{PicasaAPI::url_for_dimension(photo[:src], dimension)}" width="#{size[:width]}" height="#{size[:height]}"/>
       </a>)
-    embed += %(<p>#{auto_link_urls(photo[:description])}</p>) unless photo[:description].empty?
+    embed += %(<p>#{description_oneliner(photo[:description])}</p>) unless photo[:description].empty?
     embed.gsub(/'/, "\\\\'").gsub(/"/, '\\\\"')
   end
 
