@@ -129,8 +129,13 @@ Ro.Dira = {1:1
   }
 
   ,showEmbed: function(element) {
-    prompt('Embed code:', element.getAttribute('data-code').replace(/\\"/g, '"').replace(/\\'/g, "'"));
+    var code = element.getAttribute('data-code');
+    prompt('Embed code:', Ro.Dira.decode(code));
     return false;
+  }
+
+  ,decode: function(code) {
+    return code.replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/>\s+</g, "><") ;
   }
 }
 
