@@ -12,7 +12,7 @@ class PicasaAPI
     entry_fields = "content,media:group(media:description),gphoto:id,gphoto:timestamp,title,gphoto:width,gphoto:height"
     URI.parse("#{API_BASE}/user/#{URI.escape(username)}/albumid/#{URI.escape(album)}?alt=json&fields=#{global_fields},entry(#{entry_fields})")
   end
-  
+
   def self.photo_size(photo, max)
     width, height = photo[:width].to_i, photo[:height].to_i
     return { :width => width, :height => height} if [width, height].max < max
