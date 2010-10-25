@@ -12,6 +12,10 @@ describe 'The Light Picasa App' do
     LightPicasa
   end
 
+  before do
+    set :environment, :test
+  end
+
   def fake_picasa(kind)
     picasa_api = %r(http://picasaweb.google.com/data/feed/api/.*)
     if (kind.to_s == "error")
@@ -65,22 +69,24 @@ describe 'The Light Picasa App' do
   it "caches user's albums for 1 hour" do
     fake_picasa(:user)
 
+    set :environment, :production
     get "/user_id"
-    last_response.headers["Cache-control"].should.equal "public, max-age=3600"
+    last_response.headers["Cache-Control"].should.equal "public, max-age=3600"
   end
 
   it "caches album's photos for 1 hour" do
     fake_picasa(:album)
 
+    set :environment, :production
     get "/user_id/album_id"
-    last_response.headers["Cache-control"].should.equal "public, max-age=3600"
+    last_response.headers["Cache-Control"].should.equal "public, max-age=3600"
   end
 
 
   ["/", "/stylesheet.css"].each do |url|
     it "does not cache #{url}" do
       get url
-      last_response.headers["Cache-control"].should.be.nil
+      last_response.headers["Cache-Control"].should.be.nil
     end
   end
 end
