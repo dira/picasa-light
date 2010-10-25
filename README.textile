@@ -1,6 +1,6 @@
 "picasa-light":http://picasa-light.heroku.com/. For people annoyed by the quantity of UI and JS in Picasa.
 
-!http://img.skitch.com/20101025-xqfmfr649h9jhmt7a75h5u7g81.jpg!
+!http://img.skitch.com/20101025-xa7s7ycnq6fysqc1fgmciwpund.gif!
 
 h2. Technicalities
 
@@ -12,8 +12,8 @@ The interface is inspired by "a minimalist Flickr viewer":http://ihardlyknowher.
 
 h2. Screenshots
 
-!http://img.skitch.com/20101025-xqfmfr649h9jhmt7a75h5u7g81.jpg!
+!http://img.skitch.com/20101025-xa7s7ycnq6fysqc1fgmciwpund.gif!
 
-!http://img.skitch.com/20101025-xtd19xgq26xyb8c31r7m4gahsu.jpg!
+!http://img.skitch.com/20101025-phxi63y776iregnp53jmyg7wqn.gif!
 
-!http://img.skitch.com/20101025-xij2pp7pk94n5mt9icchjjeu9r.jpg!
+!http://img.skitch.com/20101025-b9qbdqymasrfqg9psubsn39aii.jpg!
