@@ -1,3 +1,19 @@
 "picasa-light":http://picasa-light.heroku.com/. For people annoyed by the quantity of UI and JS in Picasa.
 
-!http://img.skitch.com/20100503-qfqsfkm3m3q5cfm18xbpxp9mtr.jpg!
+!http://img.skitch.com/20101025-xqfmfr649h9jhmt7a75h5u7g81.jpg!
+
+h2. Technicalities
+
+picasa-light is built on top of Sinatra using the Picasa Web Albums Data API.
+
+The images are loaded progressively via Javascript, 4 at a time, in order not to choke the viewer's browser.
+
+The interface is inspired by "a minimalist Flickr viewer":http://ihardlyknowher.com/. I use CSS for showing details only on the 'active' picture, and some Javascript for the click-to-zoom feature.
+
+h2. Screenshots
+
+!http://img.skitch.com/20101025-xqfmfr649h9jhmt7a75h5u7g81.jpg!
+
+!http://img.skitch.com/20101025-xtd19xgq26xyb8c31r7m4gahsu.jpg!
+
+!http://img.skitch.com/20101025-xij2pp7pk94n5mt9icchjjeu9r.jpg!
