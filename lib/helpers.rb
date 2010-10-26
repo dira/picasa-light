@@ -8,7 +8,7 @@ module Helpers
   end
 
   def album_path(username, album)
-    "#{user_url(username)}/#{album[:id]}/#{album[:uri]}"
+    "#{user_url(username)}/#{album[:uri]}"
   end
 
   def album_url(username, album)

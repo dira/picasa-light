@@ -14,16 +14,17 @@ def app
   LightPicasa
 end
 
-def fake_picasa(kind, success = true)
+def fake_picasa(kind, success = true, id = nil )
   api_base = "http://picasaweb.google.com/data/feed/api"
+  id_part = id ? id : "[^/]+"
   if (kind.to_s == 'user')
-    url = %r(#{api_base}/user/[^/]+\?.*)
+    url = %r(#{api_base}/user/#{id_part}\?.*)
   else
-    url = %r(#{api_base}/user/[^/]+/albumid/[^/]+\?.*)
+    url = %r(#{api_base}/user/[^/]+/albumid/#{id_part}\?.*)
   end
 
+  content = File.read(File.dirname(__FILE__) + "/fixtures/#{kind}.json")
   if success
-    content = File.read(File.dirname(__FILE__) + "/fixtures/#{kind}.json")
     FakeWeb.register_uri(:get, url, :body => content)
   else
     FakeWeb.register_uri(:get, url, :body => "", :status => 404)

@@ -47,7 +47,19 @@ class PicasaAPI
   end
 
   def self.album(username, album)
+    album_param = album
+    if !album.numeric?  # must be the album's name (or a mistake)
+      album = album_by_name(username, album)
+    end
+
     response = Net::HTTP.get_response(PicasaAPI::api_url_album(username, album))
+
+    if !response.is_a?(Net::HTTPOK) && album == album_param
+      # maybe the album name is numeric
+      album = album_by_name(username, album)
+      response = Net::HTTP.get_response(PicasaAPI::api_url_album(username, album))
+    end
+
     raise LightPicasaError unless response.is_a? Net::HTTPOK
 
     feed = JSON.parse(response.body)['feed']
@@ -68,5 +80,20 @@ class PicasaAPI
       :link => feed["link"][0]["href"],
       :photos => photos
     }
+  end
+
+  protected
+    def self.album_by_name(username, album_name)
+      albums = user(username)[:albums] rescue []
+      if found = (albums.find{|a| a[:uri].casecmp(album_name) == 0})
+        return found[:id].to_s
+      end
+      album_name
+    end
+end
+
+class String
+  def numeric?
+    match /^[0-9]+$/
   end
 end

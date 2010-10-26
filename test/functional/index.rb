@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 describe 'picasa-light' do
 
   describe 'when browsing' do
+    before do
+      FakeWeb.clean_registry
+    end
+
     it "does not crash on the home page" do
       get '/'
       last_response.should.be.ok
@@ -29,6 +33,7 @@ describe 'picasa-light' do
 
     ["album_id", "album_id/", "album_id/ignored_album_name", "album_id/ignored_album_name/"].each do |url|
       it "does not crash on existing album page - #{url}" do
+        fake_picasa(:user) # as id's are not numeric
         fake_picasa(:album)
 
         get "/user_id/#{url}"
@@ -37,17 +42,48 @@ describe 'picasa-light' do
     end
 
     it "returns 404 for wrong album" do
+      fake_picasa(:user) # as the id is not numeric
       fake_picasa(:album, false)
 
       get "/bad_user_id/bad_album"
       last_response.should.not.be.ok
       last_response.headers["Cache-control"].should.be.nil
     end
+
+    it "works with album name directly" do
+      fake_picasa(:user)
+      fake_picasa(:album, true, "5461881958625748465")
+      fake_picasa(:album, false, 'innasimariuslove')
+
+      get "/user_id/innasimariuslove" # from fixtures, lowercased
+      last_response.should.be.ok
+    end
+
+    it "returns 404 for bad album name" do
+      fake_picasa(:user)
+      fake_picasa(:album, true, "5461881958625748465")
+      fake_picasa(:album, false, 'innasimariuslove2')
+
+      get "/user_id/innasimariuslove2" # from fixtures, lowercased
+      last_response.should.not.be.ok
+      last_response.status.should.be 404
+    end
+
+    it "works with numeric album name" do
+      fake_picasa(:user)
+      fake_picasa(:album, false, "123")
+      fake_picasa(:album, true, "5532128439669121473")
+
+      get "/user_id/123"
+      last_response.should.be.ok
+    end
+
   end
 
   describe 'caching' do
     before do
       set :environment, :test
+      FakeWeb.clean_registry
     end
 
     it "caches user's albums for 1 hour" do
@@ -66,7 +102,6 @@ describe 'picasa-light' do
       get "/user_id/album_id"
       last_response.headers["Cache-Control"].should.equal "public, max-age=3600"
     end
-
 
     ["/", "/stylesheet.css"].each do |url|
       it "does not cache #{url}" do

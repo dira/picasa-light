@@ -5,7 +5,111 @@
       "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
             "term" : "http://schemas.google.com/photos/2007#user"
           } ],
-      "entry" : [ { "author" : [ { "name" : { "$t" : "Ancutz" },
+      "entry" : [ {
+        "id": {
+          "$t": "http://picasaweb.google.com/data/entry/api/user/irina.dumitrascu/albumid/5532128439669121473?alt\u003djson"
+        },
+        "published": {
+          "$t": "2010-10-25T07:00:00.000Z"
+        },
+        "updated": {
+          "$t": "2010-10-25T23:23:46.731Z"
+        },
+        "category": [{
+          "scheme": "http://schemas.google.com/g/2005#kind",
+          "term": "http://schemas.google.com/photos/2007#album"
+        }],
+        "title": {
+          "$t": "123",
+          "type": "text"
+        },
+        "summary": {
+          "$t": "",
+          "type": "text"
+        },
+        "rights": {
+          "$t": "public",
+          "type": "text"
+        },
+        "link": [{
+          "rel": "http://schemas.google.com/g/2005#feed",
+          "type": "application/atom+xml",
+          "href": "http://picasaweb.google.com/data/feed/api/user/irina.dumitrascu/albumid/5532128439669121473?alt\u003djson"
+        },
+        {
+          "rel": "alternate",
+          "type": "text/html",
+          "href": "http://picasaweb.google.com/irina.dumitrascu/123"
+        },
+        {
+          "rel": "self",
+          "type": "application/atom+xml",
+          "href": "http://picasaweb.google.com/data/entry/api/user/irina.dumitrascu/albumid/5532128439669121473?alt\u003djson"
+        }],
+        "author": [{
+          "name": {
+            "$t": "Irina Dumitrascu"
+          },
+          "uri": {
+            "$t": "http://picasaweb.google.com/irina.dumitrascu"
+          }
+        }],
+        "gphoto$id": {
+          "$t": "5532128439669121473"
+        },
+        "gphoto$name": {
+          "$t": "123"
+        },
+        "gphoto$location": {
+          "$t": ""
+        },
+        "gphoto$access": {
+          "$t": "public"
+        },
+        "gphoto$timestamp": {
+          "$t": "1287990000000"
+        },
+        "gphoto$numphotos": {
+          "$t": 0
+        },
+        "gphoto$user": {
+          "$t": "irina.dumitrascu"
+        },
+        "gphoto$nickname": {
+          "$t": "Irina Dumitrascu"
+        },
+        "gphoto$commentingEnabled": {
+          "$t": "true"
+        },
+        "gphoto$commentCount": {
+          "$t": 0
+        },
+        "media$group": {
+          "media$content": [{
+            "url": "http://lh3.ggpht.com/_TnpVkbNvkMc/TMYRgWJQYcE/AAAAAAAAyeM/TzuMRz4poYM/123.jpg",
+            "type": "image/jpeg",
+            "medium": "image"
+          }],
+          "media$credit": [{
+            "$t": "Irina Dumitrascu"
+          }],
+          "media$description": {
+            "$t": "",
+            "type": "plain"
+          },
+          "media$keywords": {},
+          "media$thumbnail": [{
+            "url": "http://lh3.ggpht.com/_TnpVkbNvkMc/TMYRgWJQYcE/AAAAAAAAyeM/TzuMRz4poYM/s160-c/123.jpg",
+            "height": 160,
+            "width": 160
+          }],
+          "media$title": {
+            "$t": "123",
+            "type": "plain"
+          }
+        }
+      },
+      { "author" : [ { "name" : { "$t" : "Ancutz" },
                   "uri" : { "$t" : "http://picasaweb.google.com/Anca.Mihai1" }
                 } ],
             "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
