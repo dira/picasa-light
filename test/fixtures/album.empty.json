@@ -1,0 +1,67 @@
+{ "encoding" : "UTF-8",
+  "feed" : { "author" : [ { "name" : { "$t" : "Ancutz" },
+            "uri" : { "$t" : "http://picasaweb.google.com/Anca.Mihai1" }
+          } ],
+      "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+            "term" : "http://schemas.google.com/photos/2007#album"
+          } ],
+      "generator" : { "$t" : "Picasaweb",
+          "uri" : "http://picasaweb.google.com/",
+          "version" : "1.00"
+        },
+      "gphoto$access" : { "$t" : "public" },
+      "gphoto$allowDownloads" : { "$t" : "true" },
+      "gphoto$allowPrints" : { "$t" : "true" },
+      "gphoto$commentCount" : { "$t" : 0 },
+      "gphoto$commentingEnabled" : { "$t" : "true" },
+      "gphoto$id" : { "$t" : "5461881958625748465" },
+      "gphoto$location" : { "$t" : "" },
+      "gphoto$name" : { "$t" : "InnaSiMariusLove" },
+      "gphoto$nickname" : { "$t" : "Ancutz" },
+      "gphoto$numphotos" : { "$t" : 29 },
+      "gphoto$timestamp" : { "$t" : "1271528930000" },
+      "gphoto$user" : { "$t" : "Anca.Mihai1" },
+      "icon" : { "$t" : "http://lh3.ggpht.com/_gBde9uKHBy8/S8yAs_0ApfE/AAAAAAAADvs/a_Dr9Lz5pdM/s160-c/InnaSiMariusLove.jpg" },
+      "id" : { "$t" : "http://picasaweb.google.com/data/feed/api/user/AncaMihai1/albumid/5461881958625748465" },
+      "link" : [ { "href" : "http://picasaweb.google.com/data/feed/api/user/Anca.Mihai1/albumid/5461881958625748465?alt=json",
+            "rel" : "http://schemas.google.com/g/2005#feed",
+            "type" : "application/atom+xml"
+          },
+          { "href" : "http://picasaweb.google.com/Anca.Mihai1/InnaSiMariusLove",
+            "rel" : "alternate",
+            "type" : "text/html"
+          },
+          { "href" : "http://picasaweb.google.com/s/c/bin/slideshow.swf?host=picasaweb.google.com&RGB=0x000000&feed=http%3A%2F%2Fpicasaweb.google.com%2Fdata%2Ffeed%2Fapi%2Fuser%2FAnca.Mihai1%2Falbumid%2F5461881958625748465%3Falt%3Drss",
+            "rel" : "http://schemas.google.com/photos/2007#slideshow",
+            "type" : "application/x-shockwave-flash"
+          },
+          { "href" : "http://picasaweb.google.com/lh/reportAbuse?uname=Anca.Mihai1&aid=5461881958625748465",
+            "rel" : "http://schemas.google.com/photos/2007#report",
+            "type" : "text/html"
+          },
+          { "href" : "http://picasaweb.google.com/data/feed/api/user/Anca.Mihai1/albumid/5461881958625748465?alt=json&start-index=1&max-results=1000",
+            "rel" : "self",
+            "type" : "application/atom+xml"
+          }
+        ],
+      "openSearch$itemsPerPage" : { "$t" : 1000 },
+      "openSearch$startIndex" : { "$t" : 1 },
+      "openSearch$totalResults" : { "$t" : 29 },
+      "rights" : { "$t" : "public",
+          "type" : "text"
+        },
+      "subtitle" : { "$t" : "",
+          "type" : "text"
+        },
+      "title" : { "$t" : "Inna si marius=love",
+          "type" : "text"
+        },
+      "updated" : { "$t" : "2010-04-19T16:37:30.766Z" },
+      "xmlns" : "http://www.w3.org/2005/Atom",
+      "xmlns$exif" : "http://schemas.google.com/photos/exif/2007",
+      "xmlns$gphoto" : "http://schemas.google.com/photos/2007",
+      "xmlns$media" : "http://search.yahoo.com/mrss/",
+      "xmlns$openSearch" : "http://a9.com/-/spec/opensearchrss/1.0/"
+    },
+  "version" : "1.0"
+}

@@ -34,7 +34,7 @@ class PicasaAPI
     raise LightPicasaError unless response.is_a? Net::HTTPOK
 
     feed = JSON.parse(response.body)['feed']
-    albums = feed['entry'].map do |album|
+    albums = (feed['entry'] || []).map do |album|
       { :title => album["title"]["$t"],
         :summary => album["summary"]["$t"],
         :id => album["gphoto$id"]["$t"],
@@ -63,7 +63,7 @@ class PicasaAPI
     raise LightPicasaError unless response.is_a? Net::HTTPOK
 
     feed = JSON.parse(response.body)['feed']
-    photos = feed['entry'].map do |photo|
+    photos = (feed['entry'] || []).map do |photo|
       { :src => photo["content"]["src"],
         :id => photo["gphoto$id"]["$t"],
         :title => photo["title"]["$t"],

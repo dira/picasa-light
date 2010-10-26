@@ -21,6 +21,13 @@ describe 'picasa-light' do
       end
     end
 
+    it 'does no crash if the user has no albums' do
+        fake_picasa(:user, true, :empty => true)
+
+        get "/user_id"
+        last_response.should.be.ok
+    end
+
     it "returns 404 for wrong user id" do
       fake_picasa(:user, false)
 
@@ -41,6 +48,14 @@ describe 'picasa-light' do
       end
     end
 
+    it "does not crash if the album is empty" do
+      fake_picasa(:user) # as id's are not numeric
+      fake_picasa(:album, true, :empty => true)
+
+      get "/user_id/album_id"
+      last_response.should.be.ok
+    end
+
     it "returns 404 for wrong album" do
       fake_picasa(:user) # as the id is not numeric
       fake_picasa(:album, false)
@@ -52,8 +67,8 @@ describe 'picasa-light' do
 
     it "works with album name directly" do
       fake_picasa(:user)
-      fake_picasa(:album, true, "5461881958625748465")
-      fake_picasa(:album, false, 'innasimariuslove')
+      fake_picasa(:album, true,   :id => "5461881958625748465")
+      fake_picasa(:album, false,  :id => 'innasimariuslove')
 
       get "/user_id/innasimariuslove" # from fixtures, lowercased
       last_response.should.be.ok
@@ -61,8 +76,8 @@ describe 'picasa-light' do
 
     it "returns 404 for bad album name" do
       fake_picasa(:user)
-      fake_picasa(:album, true, "5461881958625748465")
-      fake_picasa(:album, false, 'innasimariuslove2')
+      fake_picasa(:album, true,   :id => "5461881958625748465")
+      fake_picasa(:album, false,  :id => 'innasimariuslove2')
 
       get "/user_id/innasimariuslove2" # from fixtures, lowercased
       last_response.should.not.be.ok
@@ -71,8 +86,8 @@ describe 'picasa-light' do
 
     it "works with numeric album name" do
       fake_picasa(:user)
-      fake_picasa(:album, false, "123")
-      fake_picasa(:album, true, "5532128439669121473")
+      fake_picasa(:album, false,  :id => "123")
+      fake_picasa(:album, true,   :id => "5532128439669121473")
 
       get "/user_id/123"
       last_response.should.be.ok
