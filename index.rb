@@ -7,6 +7,9 @@ require 'sass'
 require 'lib/picasa'
 require 'lib/helpers'
 
+class LightPicasaError < StandardError
+end
+
 class LightPicasa < Sinatra::Base
   set :public, "public"
 
@@ -22,7 +25,14 @@ class LightPicasa < Sinatra::Base
   get '/:username/?' do
     pass if (params[:username].downcase == 'javascript')
 
-    @user = PicasaAPI::user(params[:username]) rescue error(404, "Wrong user name, must be the same as in Picasa")
+    begin
+      @user = PicasaAPI::user(params[:username])
+    rescue LightPicasaError => err
+      error(404, "Wrong user name, must be the same as in Picasa")
+    rescue StandardError => err
+      p err
+      raise
+    end
     @page_title = @user[:name]
 
     add_http_cache
@@ -33,7 +43,14 @@ class LightPicasa < Sinatra::Base
     get route do
       pass if (params[:username].downcase == 'javascript')
 
-      @album = PicasaAPI::album(params[:username], params[:album_id]) rescue error(404, "Wrong user name or album, how did you get here?")
+      begin
+        @album = PicasaAPI::album(params[:username], params[:album_id])
+      rescue LightPicasaError => err
+        error(404, "Wrong user name or album, how did you get here?")
+      rescue StandardError => err
+        p err
+        raise
+      end
       @page_title = @album[:title]
 
       add_http_cache

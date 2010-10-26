@@ -31,7 +31,7 @@ class PicasaAPI
 
   def self.user(username)
     response = Net::HTTP.get_response(PicasaAPI::api_url_user(username))
-    throw "Inexistent user" unless response.is_a? Net::HTTPOK
+    raise LightPicasaError unless response.is_a? Net::HTTPOK
 
     feed = JSON.parse(response.body)['feed']
     albums = feed['entry'].map do |album|
@@ -48,7 +48,7 @@ class PicasaAPI
 
   def self.album(username, album)
     response = Net::HTTP.get_response(PicasaAPI::api_url_album(username, album))
-    throw "Inexistent user or album" unless response.is_a? Net::HTTPOK
+    raise LightPicasaError unless response.is_a? Net::HTTPOK
 
     feed = JSON.parse(response.body)['feed']
     photos = feed['entry'].map do |photo|
