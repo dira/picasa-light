@@ -16,8 +16,8 @@ ol
   margin: 0
   padding: 0
 
-p
-  margin-top: 0
+p, form
+  margin: 5px 0
 
 img
   border: 0
@@ -33,6 +33,7 @@ li
 .navigation
   margin-bottom: 30px
   font-size: 15px
+
 #header
   position: relative
   width: 600px
@@ -43,6 +44,16 @@ li
     display: none
   &:hover .navigation
     display: inline
+
+#footer
+  margin-top: 30px
+  display: table
+  border-top: 1px dashed #aaa
+  font-size: 0.8em
+  line-height: 2
+  p
+    display: inline
+    margin: 0 20px
 
 .photos
   display: inline-block
@@ -80,4 +91,11 @@ li
       color: white
       text-decoration: none
 #how_it_works
-  margin-top: 50px
+  margin: 50px 0
+  p
+    margin: 15px 0
+  .becomes
+    height: 67px
+    background: url('/becomes.png') no-repeat 100px 0
+    text-indent: -1000px
+    margin: 0
