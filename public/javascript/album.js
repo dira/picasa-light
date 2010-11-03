@@ -54,7 +54,8 @@ Ro.Dira = {1:1
 
   ,loadingEnded: function() {
     if (Ro.Dira.targetPhoto) {
-      Ro.Dira.container.after('<a href="' + Ro.Dira.albumUrl() + '">Entire album</a>')
+      Ro.Dira.container.after('<a href="' + Ro.Dira.albumUrl() + '">Entire album</a>');
+      $('li .meta', Ro.Dira.container).addClass('visible');
     }
   }
 
