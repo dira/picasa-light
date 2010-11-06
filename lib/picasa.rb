@@ -70,7 +70,7 @@ class PicasaAPI
         :description => photo["media$group"]["media$description"]["$t"],
         :width => photo["gphoto$width"]["$t"],
         :height => photo["gphoto$height"]["$t"],
-        :time => Time.at(photo["gphoto$timestamp"]["$t"].to_i / 1000)
+        :time => Time.at(photo["gphoto$timestamp"]["$t"].to_i / 1000).utc
       }
     end
     { :id => feed["gphoto$id"]["$t"],
