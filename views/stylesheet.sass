@@ -1,11 +1,12 @@
+$line_height: 1.2
 body
-  font-family: 'Times New Roman', sans-serif
   color: #333333
-  font-size: 16px
-  padding-left: 50px
+  padding: 8px
+  padding-left: 58px
+  font: 16px/"#{$line_height}" 'Times New Roman', sans-serif
 
 h1
-  margin-bottom: 20px
+  margin: 16px 0 20px
   font-family: 'Trebuchet MS', sans-serif
   font-size: 25px
   font-weight: normal
@@ -16,7 +17,7 @@ ol
   margin: 0
   padding: 0
 
-p, form
+p, form, time
   margin: 5px 0
 
 img
@@ -30,22 +31,28 @@ a
 li
   margin-bottom: 15px
 
-.navigation
+input
+  padding: 0 0.2em
+  height: 1em*$line_height/0.7
+  border: 1px solid #ccc
+  font-size: 0.7em
+
+nav, .picasa
   margin-bottom: 30px
   font-size: 15px
 
-#header
+header
   position: relative
   width: 600px
   h1
     display: inline-block
-  .navigation
+  .picasa
     margin-left: 20px
     display: none
-  &:hover .navigation
+  &:hover .picasa
     display: inline
 
-#footer
+footer
   margin-top: 30px
   display: table
   border-top: 1px dashed #aaa
@@ -68,18 +75,20 @@ li
       float: right
       width: 350px
       text-align: left
-      margin-left: 30px
+      margin-left: 70px
       font-size: 15px
       &.visible
         visibility: visible
     &:hover
       .meta
         visibility: visible
-    .time, .link
-      margin-left: 40px
+    time
+      display: block
+    time, .link, a
       margin-right: 15px
-      &, & a
-        color: #888
+      color: #888
+      &:hover
+        color: #900
 
 .albums
   margin-left: 20px

@@ -1,21 +1,21 @@
-.navigation
+%nav
   %a{ :href => '/' } home
 
-%h1
-  =h @user[:name]
-  has
-  = @user[:albums].size
-  albums:
+%section
+  %h1
+    =h @user[:name]
+    has
+    = @user[:albums].size
+    albums:
+  %ol.albums
+    - @user[:albums].each do |album|
+      %li
+        %a{ :href => album_path(params[:username], album), :title => album_title(album) }
+          =h album[:title]
+  .picasa
+    You can view these albums on
+    %a{ :href => @user[:link] } Picasa
 
-%ol.albums
-  - @user[:albums].each do |album|
-    %li
-      %a{ :href => album_path(params[:username], album), :title => album_title(album) }
-        =h album[:title]
-
-.navigation
-  You can view these albums on
-  %a{ :href => @user[:link] } Picasa
-.navigation
+%nav
   %a{ :href => '/' } home
   = "/ #{h @user[:name]}"

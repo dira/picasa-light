@@ -1,18 +1,23 @@
-!!!
-%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+<!DOCTYPE html>
+%html{ :lang => "en" }
   %head
-    %meta{ 'http-equiv' => 'Content-Type', :content => 'text/html; charset=UTF-8' }
+    %meta{ :charset => 'utf-8' }
     %title
       =h "#{@page_title} :" if @page_title
       Light Picasa viewer
 
-    %link{ :media => 'screen', :type => 'text/css', :href => '/stylesheet.css', :rel => 'stylesheet' }
+    %link{ :rel => 'stylesheet', :href => '/html5reset-1.6.1.css', :media => 'screen' }
+    %link{ :rel => 'stylesheet', :href => '/stylesheet.css', :media => 'screen' }
     %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon" }
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
   %body
     = yield
 
-    #footer
+    %footer
       %p
         brought to you by
         %a{ :href => "http://dira.ro" } dira.ro

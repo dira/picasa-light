@@ -2,37 +2,37 @@
 %script{ :type => "text/javascript", :src  => "/javascript/album.js" }
 
 - username = params[:username]
-.navigation
+%nav
   %a{ :href => '/' } home
   \/
   %a{ :href => user_url(username) }
     ="#{h @album[:author]}"
 
-#header
-  %h1
-    =h @album[:title]
+%section
+  %header
+    %h1
+      =h @album[:title]
+    .picasa
+      %a{ :href => @album[:link] } on Picasa
 
-  .navigation
-    %a{ :href => @album[:link] } on Picasa
-
-.photos
-  %noscript<
-    %ol
-      - small = 400
-      - big = 720
-      - @album[:photos].each_with_index do |photo, i|
-        %li
-          - size = PicasaAPI::photo_size(photo, small)
-          - size_big = PicasaAPI::photo_size(photo, big)
-          %a{ :href => "##{photo[:id]}", :name => photo[:id] }>
-            %img{ :src => PicasaAPI::url_for_dimension(photo[:src], small), :alt => photo[:title],
-                  :width => "#{size[:width]}", :height => "#{size[:height]}",
-                  "data-big-src" => PicasaAPI::url_for_dimension(photo[:src], big),
-                  "data-big-width" => "#{size_big[:width]}", "data-big-height" => "#{size_big[:height]}" }>
-          %div.meta>
-            - unless photo[:description].empty?
-              %p>= description_oneliner(photo[:description])
-            %p.time<>
-              = photo[:time].strftime("%H:%M %B %d, %Y")
-            %a{ :href => "##{photo[:id]}", :class => "link", :target => "_new" }> link
-            %a{ :href => "#", :onclick => %(return Ro.Dira.showEmbed(this)), "data-code" => "#{embed_code(username, @album, photo)}" } embed
+  .photos
+    %noscript<
+      %ol
+        - small = 400
+        - big = 720
+        - @album[:photos].each_with_index do |photo, i|
+          %li
+            - size = PicasaAPI::photo_size(photo, small)
+            - size_big = PicasaAPI::photo_size(photo, big)
+            %a{ :href => "##{photo[:id]}", :name => photo[:id] }>
+              %img{ :src => PicasaAPI::url_for_dimension(photo[:src], small), :alt => photo[:title],
+                    :width => "#{size[:width]}", :height => "#{size[:height]}",
+                    "data-big-src" => PicasaAPI::url_for_dimension(photo[:src], big),
+                    "data-big-width" => "#{size_big[:width]}", "data-big-height" => "#{size_big[:height]}" }>
+            %div.meta>
+              - unless photo[:description].empty?
+                %p>= description_oneliner(photo[:description])
+              %time{ :datetime => photo[:time].strftime("%Y-%m-%d") }<>
+                = photo[:time].strftime("%H:%M %B %d, %Y")
+              %a{ :href => "##{photo[:id]}", :class => "link", :target => "_new" }> link
+              %a{ :href => "#", :onclick => %(return Ro.Dira.showEmbed(this)), "data-code" => "#{embed_code(username, @album, photo)}" } embed
