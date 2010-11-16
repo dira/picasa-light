@@ -3,7 +3,6 @@ require 'sinatra'
 require 'json'
 require 'net/http'
 require 'haml'
-require 'sass'
 require 'lib/picasa'
 require 'lib/helpers'
 
