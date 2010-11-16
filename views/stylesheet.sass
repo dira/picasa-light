@@ -1,14 +1,20 @@
-$line_height: 1.2
+$hover: #900
+
+$font_size: 15px
+$line_height: 1.4
+$unit = $font_size * $line_height
 body
-  color: #333333
-  padding: 8px
+  color: #333
+  padding: 0
+  margin: 0
   padding-left: 58px
-  font: 16px/"#{$line_height}" 'Times New Roman', sans-serif
+  font: unquote("#{$font_size}/#{$line_height}") 'Times New Roman', sans-serif
 
 h1
-  margin: 16px 0 20px
+  margin: $unit 0
   font-family: 'Trebuchet MS', sans-serif
-  font-size: 25px
+  font-size: 1.66em
+  line-height: 2*$unit
   font-weight: normal
   font-variant: small-caps
 
@@ -17,33 +23,31 @@ ol
   margin: 0
   padding: 0
 
-p, form, time
-  margin: 5px 0
-
 img
   border: 0
 
 a
   color: #300
   &:hover
-    color: #900
+    color: $hover
 
 li
-  margin-bottom: 15px
+  margin-bottom: $unit/2
 
 input
   padding: 0 0.2em
-  height: 1em*$line_height/0.7
+  margin-top: -1px
+  height: $unit - 2px
   border: 1px solid #ccc
   font-size: 0.7em
 
 nav, .picasa
-  margin-bottom: 30px
-  font-size: 15px
+  margin-bottom: $unit
+  font-size: 0.94em
+  line-height: $unit
 
 header
   position: relative
-  width: 600px
   h1
     display: inline-block
   .picasa
@@ -53,11 +57,11 @@ header
     display: inline
 
 footer
-  margin-top: 30px
+  margin-top: $unit - 1px
   display: table
   border-top: 1px dashed #aaa
   font-size: 0.8em
-  line-height: 2
+  line-height: $unit
   p
     display: inline
     margin: 0 20px
@@ -65,7 +69,7 @@ footer
 .photos
   display: inline-block
   li
-    margin-bottom: 40px
+    margin-bottom: 2*$unit
     clear: both
     img
       vertical-align: top
@@ -76,7 +80,14 @@ footer
       width: 350px
       text-align: left
       margin-left: 70px
-      font-size: 15px
+      font-size: 0.94em
+      line-height: $unit
+      a, time
+        color: #888
+      a
+        margin-right: 15px
+        &:hover
+          color: $hover
       &.visible
         visibility: visible
     &:hover
@@ -84,29 +95,40 @@ footer
         visibility: visible
     time
       display: block
-    time, .link, a
-      margin-right: 15px
-      color: #888
-      &:hover
-        color: #900
 
 .albums
   margin-left: 20px
-  margin-bottom: 20px
+  margin-bottom: $unit
   list-style-type: circle
   a
-    padding: 7px 4px 0
     display: inline-block
+    padding: 0 0.2em
     &:hover
-      background-color: #900
+      background-color: $hover
       color: white
       text-decoration: none
+
 #how_it_works
-  margin: 50px 0
-  p
-    margin: 15px 0
+  margin: 2*$unit 0
   .becomes
-    height: 67px
-    background: url('/becomes.png') no-repeat 100px 0
+    height: 4*$unit
+    background: url('/becomes.png') no-repeat 100px center
     text-indent: -1000px
     margin: 0
+
+
+$grid: false
+// $grid: true
+body:after
+  @if $grid
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: url(/grid_21.png)
+.photos
+  img
+    @if $grid
+      display: none
