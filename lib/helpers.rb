@@ -21,10 +21,11 @@ module Helpers
 
   def embed_code(username, album, photo, dimension = 400)
     size = PicasaAPI::photo_size(photo, dimension)
-    embed = %(<a href="#{album_url(params[:username], @album)}##{photo[:id]}">
+    embed = %(<div class="photo"><a href="#{album_url(params[:username], @album)}##{photo[:id]}">
         <img src="#{PicasaAPI::url_for_dimension(photo[:src], dimension)}" width="#{size[:width]}" height="#{size[:height]}"/>
       </a>)
     embed += %(<p>#{description_oneliner(photo[:description])}</p>) unless photo[:description].empty?
+    embed += "</div>"
     embed.gsub(/'/, "\\\\'").gsub(/"/, '\\\\"')
   end
 
