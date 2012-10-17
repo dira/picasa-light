@@ -1,10 +1,9 @@
-require 'rubygems'
 require 'sinatra'
+require 'haml'
 require 'json'
 require 'net/http'
-require 'haml'
-require 'lib/picasa'
-require 'lib/helpers'
+require './lib/picasa'
+require './lib/helpers'
 
 class LightPicasaError < StandardError
 end

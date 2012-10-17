@@ -1,6 +1,4 @@
-require 'rubygems'
-require 'sinatra'
-require 'index.rb'
+require './index.rb'
 
 if development?
   require 'sham_rack'
@@ -15,8 +13,8 @@ if development?
 end
 
 # logging
-set :raise_errors, true
-log = File.new("log/sinatra.log", "a+")
+FileUtils.mkdir_p('./log')
+log = File.new("./log/sinatra.log", "a+")
 STDOUT.reopen(log)
 STDERR.reopen(log)
 

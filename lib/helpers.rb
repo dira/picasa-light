@@ -1,3 +1,5 @@
+require 'rack'
+
 module Helpers
   include Rack::Utils
   alias_method :h, :escape_html
