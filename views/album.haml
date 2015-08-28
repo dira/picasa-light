@@ -1,3 +1,7 @@
+- content_for :meta_tags do
+  %meta{ property: 'og:image', content: @album[:cover_icon].gsub(/\/s160-c\//, '/s600-c/')}
+  %meta{ property: 'og:title', content: "#{@album[:title]} #{@album[:description]}" }
+
 %script{ :type => "text/javascript", :src  => "/javascript/vendor/jquery.js" }
 %script{ :type => "text/javascript", :src  => "/javascript/album.js" }
 
@@ -12,6 +16,8 @@
   %header
     %h1
       =h @album[:title]
+    %p=h @album[:description]
+
     .picasa
       %a{ :href => @album[:link] } on Picasa
 

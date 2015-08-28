@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/content_for'
 require 'haml'
 require 'sass'
 require 'json'
@@ -10,6 +11,7 @@ class LightPicasaError < StandardError
 end
 
 class LightPicasa < Sinatra::Base
+  helpers Sinatra::ContentFor
   set :public_folder, "public"
 
   get '/' do

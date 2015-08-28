@@ -2,6 +2,8 @@
 %html{ :lang => "en" }
   %head
     %meta{ :charset => 'utf-8' }
+    = yield_content :meta_tags
+
     %title
       =h "#{@page_title} :" if @page_title
       Light Picasa viewer
