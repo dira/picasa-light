@@ -4,8 +4,12 @@ GEM
     daemons (1.1.9)
     eventmachine (1.0.0)
     haml (3.1.7)
+    puma (2.13.4)
     rack (1.4.1)
     rack-protection (1.2.0)
+      rack
+    sass (3.4.16)
+    sham_rack (1.3.6)
       rack
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
@@ -22,6 +26,9 @@ PLATFORMS
 
 DEPENDENCIES
   haml
+  puma
   rack
+  sass
+  sham_rack
   sinatra
   thin

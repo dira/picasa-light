@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'haml'
+require 'sass'
 require 'json'
 require 'net/http'
 require './lib/picasa'
@@ -9,7 +10,7 @@ class LightPicasaError < StandardError
 end
 
 class LightPicasa < Sinatra::Base
-  set :public, "public"
+  set :public_folder, "public"
 
   get '/' do
     haml :index

@@ -1,6 +1,10 @@
 source 'http://rubygems.org'
+ruby '2.1.3'
 
 gem 'rack'
+gem 'sham_rack'
 gem 'thin'
+gem 'sass'
 gem 'sinatra'
 gem 'haml'
+gem 'puma'

@@ -12,10 +12,18 @@ if development?
   end
 end
 
-# logging
-FileUtils.mkdir_p('./log')
-log = File.new("./log/sinatra.log", "a+")
-STDOUT.reopen(log)
-STDERR.reopen(log)
+class NilClass
+  def empty?
+    true
+  end
+end
+
+unless development?
+  # logging
+  FileUtils.mkdir_p('./log')
+  log = File.new("./log/sinatra.log", "a+")
+  STDOUT.reopen(log)
+  STDERR.reopen(log)
+end
 
 run LightPicasa
